@@ -4,13 +4,11 @@ import { ReactComponent as Circle } from '../assets/images/circle.svg';
 import { ReactComponent as Arrow } from '../assets/images/arrow.svg';
 
 class ColorSelector extends Component {
-    state = {
-        rotation: 0,
-    }
     containerRef;
     constructor(props) {
         super(props);
         this.containerRef = React.createRef();
+        this.state = { rotation: this.props.initialRotation }
     }
     getRelativeCoordinates(pageX, pageY) {
         const clientRect = this.containerRef.current.getBoundingClientRect()
@@ -28,6 +26,7 @@ class ColorSelector extends Component {
         return this.calculateDegrees(this.getRelativeCoordinates(x, y)).degrees - 180
     }
     handleTouchMove = (event) => {
+        event.stopPropagation();
         const touch = event.touches[0];
         if (this.state.pageX && this.state.pageY) {
             const pageX = touch.pageX
@@ -62,15 +61,16 @@ class ColorSelector extends Component {
         }
     }
     render() {
-        return <div ref={this.containerRef} className={styles.color_selector_container} style={{ transform: "rotate(" + this.state.rotation + "deg)" }}>
-            <Arrow className={styles.arrow} onTouchMove={this.handleTouchMove} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp} onMouseMove={this.handleMouseMove} />
+        const { zIndex } = this.props;
+        return <div ref={this.containerRef} className={styles.color_selector_container} style={{ transform: "rotate(" + this.state.rotation + "deg) scale(0.8)" }}>
+            <Arrow style={{ zIndex }} className={styles.arrow} onTouchMove={this.handleTouchMove} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUp} onMouseMove={this.handleMouseMove} onClick={() => console.log(123)} />
             <Circle />
         </div>
     }
 }
 
 const ColorRenderer = (props) => {
-    const {hue1, hue2, hue3} = props;
+    const { hue1, hue2, hue3 } = props;
     return <div className={styles.color_renderer}>
         Render
     </div>
@@ -80,7 +80,11 @@ export default class CircularColorPicker extends Component {
     render() {
         return <div className={styles.container}>
             <div className={styles.color_bar}>
-                <ColorSelector />
+                <div className={styles.selector_stack}>
+                    <ColorSelector initialRotation={200} zIndex={100} />
+                    <ColorSelector initialRotation={220} zIndex={10} />
+                    <ColorSelector initialRotation={240} zIndex={1} />
+                </div>
             </div>
         </div>
     }

@@ -1,20 +1,40 @@
 .container {
-    width: 100%;
+  width: 100%;
 }
 
 .color_bar {
-    background: pink;
-    padding: 20%;
+  padding: 20%;
+  position: relative;
 }
 
 .color_selector_container {
-    position: relative;
+  position: absolute;
+  box-sizing: border-box;
+  * {
+    display: block;
+  }
+  width: 200px;
+  height: 200px;
 }
 
 .arrow {
-    width: 25%;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(20%);
+  width: 30%;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-200%);
+}
+
+.selector_stack {
+  position: relative;
+}
+
+.color_renderer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    border-radius: 50%;
 }
