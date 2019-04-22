@@ -1,0 +1,20 @@
+.container {
+    width: 100%;
+}
+
+.color_bar {
+    background: pink;
+    padding: 20%;
+}
+
+.color_selector_container {
+    position: relative;
+}
+
+.arrow {
+    width: 25%;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(20%);
+}
