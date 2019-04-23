@@ -14,6 +14,9 @@ export default class ColorSelector extends Component {
     this.arrowRef = React.createRef();
     this.state = { rotation: this.props.initialRotation };
   }
+  setColor(rotation) {
+    this.setState({ rotation }, () => this.emitChange());
+  }
   componentDidMount() {
     // this.arrowRef.current.addEventListener(
     //   "dragstart",
@@ -49,20 +52,19 @@ export default class ColorSelector extends Component {
     }
   }
   handleTouchMove = event => {
+    event.preventDefault();
     event.stopPropagation();
     const touch = event.touches[0];
     if (this.state.pageX && this.state.pageY) {
       const pageX = touch.pageX;
       const pageY = touch.pageY;
       const rotation = this.getRotation(pageX, pageY);
-      this.emitChange();
-      this.setState({ rotation, pageX, pageY });
+      this.setState({ rotation, pageX, pageY }, () => this.emitChange());
     } else if (this.state.clientX && this.state.clientY) {
       const clientX = touch.clientX;
       const clientY = touch.clientY;
       const rotation = this.getRotation(clientX, clientY);
-      this.emitChange();
-      this.setState({ rotation, clientX, clientY });
+      this.setState({ rotation, clientX, clientY }, () => this.emitChange());
     } else if (touch.pageX && touch.pageY) {
       const pageX = touch.pageX;
       const pageY = touch.pageY;
@@ -82,8 +84,7 @@ export default class ColorSelector extends Component {
   handleMouseMove = event => {
     if (this.state.isRotating) {
       const rotation = this.getRotation(event.pageX, event.pageY);
-      this.emitChange();
-      this.setState({ rotation });
+      this.setState({ rotation }, () => this.emitChange());
     }
   };
   // handleDrag = event => {
