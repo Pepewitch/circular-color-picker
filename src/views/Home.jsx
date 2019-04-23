@@ -1,8 +1,10 @@
-import React from 'react';
-import CircularColorPicker from '../components/CircularColorPicker';
+import React from "react";
+import CircularColorPicker from "../components/CircularColorPicker";
 
 export default () => {
-    return <div className="container">
-        <CircularColorPicker />
+  return (
+    <div className="container">
+      <CircularColorPicker />
     </div>
-}
+  );
+};
