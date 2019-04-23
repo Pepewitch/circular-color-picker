@@ -3,12 +3,28 @@ import styles from "./CircularColorPicker.module.scss";
 import { ReactComponent as Circle } from "../assets/images/circle.svg";
 import { ReactComponent as Arrow } from "../assets/images/arrow.svg";
 
+// TODO: Improve desktop draging UX
+
 export default class ColorSelector extends Component {
   containerRef;
+  arrowRef;
   constructor(props) {
     super(props);
     this.containerRef = React.createRef();
+    this.arrowRef = React.createRef();
     this.state = { rotation: this.props.initialRotation };
+  }
+  componentDidMount() {
+    // this.arrowRef.current.addEventListener(
+    //   "dragstart",
+    //   function(e) {
+    //     const crt = this.cloneNode(true);
+    //     crt.style.opacity = 0;
+    //     crt.style.visibility = "hidden";
+    //     e.dataTransfer.setDragImage(crt, 0, 0);
+    //   },
+    //   false
+    // );
   }
   getRelativeCoordinates(pageX, pageY) {
     const clientRect = this.containerRef.current.getBoundingClientRect();
@@ -70,6 +86,11 @@ export default class ColorSelector extends Component {
       this.setState({ rotation });
     }
   };
+  // handleDrag = event => {
+  //   const rotation = this.getRotation(event.pageX, event.pageY);
+  //   this.emitChange();
+  //   this.setState({ rotation });
+  // };
   render() {
     const { base } = this.props;
     return (
@@ -83,13 +104,15 @@ export default class ColorSelector extends Component {
           transform: "rotate(" + this.state.rotation + "deg) scale(0.8)"
         }}
       >
-        <Arrow
-          className={styles.arrow}
-          onTouchMove={this.handleTouchMove}
-          onMouseDown={this.handleMouseDown}
-          onMouseUp={this.handleMouseUp}
-          onMouseMove={this.handleMouseMove}
-        />
+        <div className={styles.arrow} ref={this.arrowRef}>
+          <Arrow
+            style={{ touchAction: "none" }}
+            onTouchMove={this.handleTouchMove}
+            onMouseDown={this.handleMouseDown}
+            onMouseUp={this.handleMouseUp}
+            onMouseMove={this.handleMouseMove}
+          />
+        </div>
         <Circle style={{ opacity: 0 }} />
       </div>
     );

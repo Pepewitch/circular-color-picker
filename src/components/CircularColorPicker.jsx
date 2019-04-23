@@ -2,18 +2,18 @@ import React, { Component } from "react";
 import styles from "./CircularColorPicker.module.scss";
 import ColorSelector from "./ColorSelector";
 import ColorRenderer from "./ColorRenderer";
-
+import hue from "../assets/images/hue.png";
 export default class CircularColorPicker extends Component {
   state = {
     hue1: 200,
     hue2: 220,
-    hue3: 240
+    hue3: 150
   };
   render() {
     const { hue1, hue2, hue3 } = this.state;
     return (
       <div className={styles.container}>
-        <div className={styles.color_bar}>
+        <div className={styles.color_bar} style={{ backgroundImage: `url(${hue})` }}>
           <div className={styles.selector_stack}>
             <ColorSelector
               base
@@ -25,7 +25,7 @@ export default class CircularColorPicker extends Component {
               onChange={hue => this.setState({ hue2: hue })}
             />
             <ColorSelector
-              initialRotation={240}
+              initialRotation={150}
               onChange={hue => this.setState({ hue3: hue })}
             />
             <ColorRenderer

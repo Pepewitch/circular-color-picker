@@ -4,8 +4,10 @@
 
 .color_bar {
   padding: 20%;
-  background: pink;
   position: relative;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .color_selector_container {
@@ -25,6 +27,7 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(-200%);
+  cursor: pointer;
 }
 
 .selector_stack {
