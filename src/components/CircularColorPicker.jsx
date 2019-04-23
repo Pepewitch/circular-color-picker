@@ -100,7 +100,10 @@ function mix(a, b, v) {
   return (1 - v) * a + v * b;
 }
 
-function hueToRGB(H) {
+function hueToRGB(H, startLimit, stopLimit) {
+  if ((H > startLimit && H < stopLimit) || !H) {
+    return undefined;
+  }
   const S = 0.6;
   const V = 1;
   const V2 = V * (1 - S);
@@ -142,11 +145,7 @@ function hueToRGB(H) {
   };
 }
 
-const ColorRenderer = props => {
-  const { hue1, hue2, hue3 } = props;
-  const color1 = hueToRGB(hue1);
-  const color2 = hueToRGB(hue2);
-  const color3 = hueToRGB(hue3);
+const ThreeColor = ({ color1, color2, color3 }) => {
   return (
     <div
       className={`${styles.color_renderer} ${styles.float}`}
@@ -155,29 +154,98 @@ const ColorRenderer = props => {
       <div
         className={styles.color}
         style={{
-          background: `linear-gradient(0deg, transparent, rgb(${color1.r},${
+          background: `linear-gradient(0deg, transparent, rgba(${color1.r},${
             color1.g
-          },${color1.b}) )`
+          },${color1.b}, 0.65), rgba(${color1.r},${color1.g},${color1.b}, 1) )`
         }}
       />
       <div
         className={styles.color}
         style={{
-          background: `linear-gradient(120deg, transparent, rgb(${color2.r},${
+          background: `linear-gradient(120deg, transparent, rgba(${color2.r},${
             color2.g
-          },${color2.b}) )`
+          },${color2.b}, 0.2), rgba(${color2.r},${color2.g},${color2.b}, 1) )`
         }}
       />
       <div
         className={styles.color}
         style={{
-          background: `linear-gradient(240deg , transparent, rgb(${color3.r},${
+          background: `linear-gradient(240deg, transparent, rgba(${color3.r},${
             color3.g
-          },${color3.b}) )`
+          },${color3.b}, 0.15), rgba(${color3.r},${color3.g},${color3.b}, 1) )`
         }}
       />
     </div>
   );
+};
+
+const TwoColor = ({ color1, color2 }) => {
+  return (
+    <div
+      className={`${styles.color_renderer} ${styles.float}`}
+      style={{ background: "white" }}
+    >
+      <div
+        className={styles.color}
+        style={{
+          background: `rgba(${color1.r},${color1.g},${color1.b}, 1)`
+        }}
+      />
+      <div
+        className={styles.color}
+        style={{
+          background: `linear-gradient(135deg, transparent, rgba(${color2.r},${
+            color2.g
+          },${color2.b}, 0.5), rgba(${color2.r},${color2.g},${color2.b}, 1) )`
+        }}
+      />
+    </div>
+  );
+};
+
+const ColorRenderer = props => {
+  const { hue1, hue2, hue3, startLimit, stopLimit } = props;
+  const color1 = hueToRGB(hue1, startLimit, stopLimit);
+  const color2 = hueToRGB(hue2, startLimit, stopLimit);
+  const color3 = hueToRGB(hue3, startLimit, stopLimit);
+  if (color1 && color2 && color3) {
+    return <ThreeColor color1={color1} color2={color2} color3={color3} />;
+  } else if (color1 && color2) {
+    return <TwoColor color1={color1} color2={color2} />;
+  } else if (color1 && color3) {
+    return <TwoColor color1={color1} color2={color3} />;
+  } else if (color2 && color3) {
+    return <TwoColor color1={color2} color2={color3} />;
+  } else if (color1 || color2 || color3) {
+    const c1 = color1 || color2 || color3;
+    return (
+      <div
+        className={`${styles.color_renderer} ${styles.float}`}
+        style={{ background: "white" }}
+      >
+        <div
+          className={styles.color}
+          style={{
+            background: `rgba(${c1.r},${c1.g},${c1.b}, 1)`
+          }}
+        />
+      </div>
+    );
+  } else {
+    return (
+      <div
+        className={`${styles.color_renderer} ${styles.float}`}
+        style={{ background: "white" }}
+      >
+        <div
+          className={styles.color}
+          style={{
+            background: `transparent`
+          }}
+        />
+      </div>
+    );
+  }
 };
 
 export default class CircularColorPicker extends Component {
@@ -192,9 +260,7 @@ export default class CircularColorPicker extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.color_bar}>
-          <div
-            className={styles.selector_stack}
-          >
+          <div className={styles.selector_stack}>
             <ColorSelector
               base
               initialRotation={200}
@@ -208,7 +274,13 @@ export default class CircularColorPicker extends Component {
               initialRotation={240}
               onChange={hue => this.setState({ hue3: hue })}
             />
-            <ColorRenderer hue1={hue1} hue2={hue2} hue3={hue3} />
+            <ColorRenderer
+              hue1={hue1}
+              hue2={hue2}
+              hue3={hue3}
+              startLimit={150}
+              stopLimit={210}
+            />
           </div>
         </div>
       </div>
