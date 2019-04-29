@@ -50,62 +50,140 @@ const hueToRGB = (H, startLimit, stopLimit) => {
   };
 };
 
-const ThreeColor = ({ color1, color2, color3 }) => {
-  return (
-    <div
-      className={`${styles.color_renderer} ${styles.float}`}
-      style={{ background: "white" }}
-    >
-      <div
-        className={styles.color}
-        style={{
-          background: `linear-gradient(0deg, transparent, rgba(${color1.r},${
-            color1.g
-          },${color1.b}, 0.65), rgba(${color1.r},${color1.g},${color1.b}, 1) )`
-        }}
-      />
-      <div
-        className={styles.color}
-        style={{
-          background: `linear-gradient(120deg, transparent, rgba(${color2.r},${
-            color2.g
-          },${color2.b}, 0.2), rgba(${color2.r},${color2.g},${color2.b}, 1) )`
-        }}
-      />
-      <div
-        className={styles.color}
-        style={{
-          background: `linear-gradient(240deg, transparent, rgba(${color3.r},${
-            color3.g
-          },${color3.b}, 0.15), rgba(${color3.r},${color3.g},${color3.b}, 1) )`
-        }}
-      />
-    </div>
-  );
-};
+// const ThreeColor = ({ color1, color2, color3 }) => {
+//   return (
+//     <div
+//       className={`${styles.color_renderer} ${styles.float}`}
+//       style={{ background: "white" }}
+//     >
+//       <div
+//         className={styles.color}
+//         style={{
+//           background: `linear-gradient(0deg, transparent, rgba(${color1.r},${
+//             color1.g
+//           },${color1.b}, 0.65), rgba(${color1.r},${color1.g},${color1.b}, 1) )`
+//         }}
+//       />
+//       <div
+//         className={styles.color}
+//         style={{
+//           background: `linear-gradient(120deg, transparent, rgba(${color2.r},${
+//             color2.g
+//           },${color2.b}, 0.2), rgba(${color2.r},${color2.g},${color2.b}, 1) )`
+//         }}
+//       />
+//       <div
+//         className={styles.color}
+//         style={{
+//           background: `linear-gradient(240deg, transparent, rgba(${color3.r},${
+//             color3.g
+//           },${color3.b}, 0.15), rgba(${color3.r},${color3.g},${color3.b}, 1) )`
+//         }}
+//       />
+//     </div>
+//   );
+// };
 
-const TwoColor = ({ color1, color2 }) => {
-  return (
-    <div
-      className={`${styles.color_renderer} ${styles.float}`}
-      style={{ background: "white" }}
-    >
-      <div
-        className={styles.color}
-        style={{
-          background: `rgba(${color1.r},${color1.g},${color1.b}, 1)`
-        }}
-      />
-      <div
-        className={styles.color}
-        style={{
-          background: `linear-gradient(135deg, transparent, rgba(${color2.r},${
-            color2.g
-          },${color2.b}, 0.5), rgba(${color2.r},${color2.g},${color2.b}, 1) )`
-        }}
-      />
-    </div>
-  );
+// const TwoColor = ({ color1, color2 }) => {
+//   return (
+//     <div
+//       className={`${styles.color_renderer} ${styles.float}`}
+//       style={{ background: "white" }}
+//     >
+//       <div
+//         className={styles.color}
+//         style={{
+//           background: `rgba(${color1.r},${color1.g},${color1.b}, 1)`
+//         }}
+//       />
+//       <div
+//         className={styles.color}
+//         style={{
+//           background: `linear-gradient(135deg, transparent, rgba(${color2.r},${
+//             color2.g
+//           },${color2.b}, 0.5), rgba(${color2.r},${color2.g},${color2.b}, 1) )`
+//         }}
+//       />
+//     </div>
+//   );
+// };
+
+// const ColorRenderer = props => {
+//   const { hue1, hue2, hue3, startLimit, stopLimit } = props;
+//   const color1 = hueToRGB(hue1, startLimit, stopLimit);
+//   const color2 = hueToRGB(hue2, startLimit, stopLimit);
+//   const color3 = hueToRGB(hue3, startLimit, stopLimit);
+//   if (color1 && color2 && color3) {
+//     return <ThreeColor color1={color1} color2={color2} color3={color3} />;
+//   } else if (color1 && color2) {
+//     return <TwoColor color1={color1} color2={color2} />;
+//   } else if (color1 && color3) {
+//     return <TwoColor color1={color1} color2={color3} />;
+//   } else if (color2 && color3) {
+//     return <TwoColor color1={color2} color2={color3} />;
+//   } else
+//   if (color1 || color2 || color3) {
+//     const c1 = color1 || color2 || color3;
+//     return (
+//       <div
+//         className={`${styles.color_renderer} ${styles.float}`}
+//         style={{ background: "white" }}
+//       >
+//         <div
+//           className={styles.color}
+//           style={{
+//             background: `rgba(${c1.r},${c1.g},${c1.b}, 1)`
+//           }}
+//         />
+//       </div>
+//     );
+//   } else {
+//     return (
+//       <div
+//         className={`${styles.color_renderer} ${styles.float}`}
+//         style={{ background: "white" }}
+//       >
+//         <div
+//           className={styles.color}
+//           style={{
+//             background: `transparent`
+//           }}
+//         />
+//       </div>
+//     );
+//   }
+// };
+
+const getBackgroundColor = (c1, c2, c3) => {
+  if (c1 && c2 && c3) {
+    const a1 = 0.6;
+    const a2 = 0.8;
+    const a3 = 1;
+    return `linear-gradient(0deg, rgba(${c1.r},${c1.g},${
+      c1.b
+    }, 0), rgba(${c1.r},${c1.g},${
+      c1.b
+    }, ${a1})),linear-gradient(120deg, rgba(${c2.r},${c2.g},${
+      c2.b
+    }, 0), rgba(${c2.r},${c2.g},${
+      c2.b
+    }, ${a2})),linear-gradient(240deg, rgba(${c3.r},${c3.g},${
+      c3.b
+    }, 0), rgba(${c3.r},${c3.g},${
+      c3.b
+    }, ${a3})) `;
+  } else if ((c1 && c2) || (c1 && c3) || (c2 && c3)) {
+    const t1 = c1 || c2 || c3;
+    const t2 = c3 || c2 || c1;
+    return `linear-gradient(45deg, rgba(${t1.r},${t1.g},${t1.b},1), rgba(${
+      t2.r
+    },${t2.g},${t2.b},1))`;
+  } else if (c1 || c2 || c3) {
+    const t1 = c1 || c2 || c3;
+    return `rgba(${t1.r},${t1.g},${t1.b},1)`;
+  } else {
+    return "transparent";
+  }
 };
 
 const ColorRenderer = props => {
@@ -113,44 +191,19 @@ const ColorRenderer = props => {
   const color1 = hueToRGB(hue1, startLimit, stopLimit);
   const color2 = hueToRGB(hue2, startLimit, stopLimit);
   const color3 = hueToRGB(hue3, startLimit, stopLimit);
-  if (color1 && color2 && color3) {
-    return <ThreeColor color1={color1} color2={color2} color3={color3} />;
-  } else if (color1 && color2) {
-    return <TwoColor color1={color1} color2={color2} />;
-  } else if (color1 && color3) {
-    return <TwoColor color1={color1} color2={color3} />;
-  } else if (color2 && color3) {
-    return <TwoColor color1={color2} color2={color3} />;
-  } else if (color1 || color2 || color3) {
-    const c1 = color1 || color2 || color3;
-    return (
+  return (
+    <div
+      className={`${styles.color_renderer} ${styles.float}`}
+      style={{ background: "white" }}
+    >
       <div
-        className={`${styles.color_renderer} ${styles.float}`}
-        style={{ background: "white" }}
-      >
-        <div
-          className={styles.color}
-          style={{
-            background: `rgba(${c1.r},${c1.g},${c1.b}, 1)`
-          }}
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div
-        className={`${styles.color_renderer} ${styles.float}`}
-        style={{ background: "white" }}
-      >
-        <div
-          className={styles.color}
-          style={{
-            background: `transparent`
-          }}
-        />
-      </div>
-    );
-  }
+        className={styles.color}
+        style={{
+          background: getBackgroundColor(color1, color2, color3)
+        }}
+      />
+    </div>
+  );
 };
 
 export default ColorRenderer;

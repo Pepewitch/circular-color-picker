@@ -52,7 +52,6 @@ export default class ColorSelector extends Component {
     }
   }
   handleTouchMove = event => {
-    event.preventDefault();
     event.stopPropagation();
     const touch = event.touches[0];
     if (this.state.pageX && this.state.pageY) {
@@ -105,14 +104,15 @@ export default class ColorSelector extends Component {
           transform: "rotate(" + this.state.rotation + "deg) scale(0.8)"
         }}
       >
-        <div className={styles.arrow} ref={this.arrowRef}>
-          <Arrow
-            style={{ touchAction: "none" }}
-            onTouchMove={this.handleTouchMove}
-            onMouseDown={this.handleMouseDown}
-            onMouseUp={this.handleMouseUp}
-            onMouseMove={this.handleMouseMove}
-          />
+        <div
+          className={styles.arrow}
+          ref={this.arrowRef}
+          onTouchMove={this.handleTouchMove}
+          onMouseDown={this.handleMouseDown}
+          onMouseUp={this.handleMouseUp}
+          onMouseMove={this.handleMouseMove}
+        >
+          <Arrow />
         </div>
         <Circle style={{ opacity: 0 }} />
       </div>
