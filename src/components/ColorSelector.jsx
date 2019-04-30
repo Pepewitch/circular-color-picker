@@ -18,16 +18,15 @@ export default class ColorSelector extends Component {
     this.setState({ rotation }, () => this.emitChange());
   }
   componentDidMount() {
-    // this.arrowRef.current.addEventListener(
-    //   "dragstart",
-    //   function(e) {
-    //     const crt = this.cloneNode(true);
-    //     crt.style.opacity = 0;
-    //     crt.style.visibility = "hidden";
-    //     e.dataTransfer.setDragImage(crt, 0, 0);
-    //   },
-    //   false
-    // );
+    this.arrowRef.current.addEventListener("touchmove", this.handleTouchMove, {
+      passive: false
+    });
+  }
+  componentWillUnmount() {
+    this.arrowRef.current.removeEventListener(
+      "touchmove",
+      this.handleTouchMove
+    );
   }
   getRelativeCoordinates(pageX, pageY) {
     const clientRect = this.containerRef.current.getBoundingClientRect();
@@ -42,6 +41,7 @@ export default class ColorSelector extends Component {
     return { degrees, radians };
   }
   getRotation = (x, y) => {
+    this.setState({ x, y });
     return (
       this.calculateDegrees(this.getRelativeCoordinates(x, y)).degrees + 180
     );
@@ -52,6 +52,7 @@ export default class ColorSelector extends Component {
     }
   }
   handleTouchMove = event => {
+    event.preventDefault();
     event.stopPropagation();
     const touch = event.touches[0];
     if (this.state.pageX && this.state.pageY) {
@@ -107,13 +108,13 @@ export default class ColorSelector extends Component {
         <div
           className={styles.arrow}
           ref={this.arrowRef}
-          onTouchMove={this.handleTouchMove}
           onMouseDown={this.handleMouseDown}
           onMouseUp={this.handleMouseUp}
           onMouseMove={this.handleMouseMove}
         >
           <Arrow />
         </div>
+
         <Circle style={{ opacity: 0 }} />
       </div>
     );
