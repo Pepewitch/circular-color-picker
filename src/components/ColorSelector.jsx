@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import styles from "./CircularColorPicker.module.scss";
 import { ReactComponent as Circle } from "../assets/images/circle.svg";
-import { ReactComponent as Arrow } from "../assets/images/arrow.svg";
-
-// TODO: Improve desktop draging UX
+import { ReactComponent as Arrow } from "../assets/images/selector.svg";
 
 export default class ColorSelector extends Component {
   containerRef;
@@ -112,9 +110,8 @@ export default class ColorSelector extends Component {
           onMouseUp={this.handleMouseUp}
           onMouseMove={this.handleMouseMove}
         >
-          <Arrow />
+          <Arrow stroke="#adadad" />
         </div>
-
         <Circle style={{ opacity: 0 }} />
       </div>
     );
