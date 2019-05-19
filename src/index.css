@@ -22,6 +22,7 @@ code {
   margin: auto;
   justify-content: center;
   align-items: center;
+  flex-flow: column nowrap;
 }
 
 img,

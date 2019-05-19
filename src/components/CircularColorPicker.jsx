@@ -16,16 +16,18 @@ export default class CircularColorPicker extends Component {
   colorSelector1Ref;
   colorSelector2Ref;
   colorSelector3Ref;
+  containerRef;
   constructor(props) {
     super(props);
     this.colorSelector1Ref = React.createRef();
     this.colorSelector2Ref = React.createRef();
     this.colorSelector3Ref = React.createRef();
+    this.containerRef = React.createRef();
   }
   render() {
     const { hue1, hue2, hue3 } = this.state;
     return (
-      <div className={styles.container}>
+      <div className={styles.container} ref={this.containerRef}>
         <div
           className={styles.color_bar}
           style={{ backgroundImage: `url(${color_wheel})` }}
