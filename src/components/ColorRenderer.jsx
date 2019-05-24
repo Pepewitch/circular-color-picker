@@ -54,67 +54,63 @@ const hueToRGB = (H, startLimit, stopLimit) => {
   if ((H > startLimit && H < stopLimit) || !H) {
     return undefined;
   }
-  if (H >= 0 && H < 10) {
-    return { r: 238, g: 72, b: 151 };
-  } else if (H >= 10 && H < 20) {
-    return { r: 234, g: 66, b: 133 };
-  } else if (H >= 20 && H < 30) {
-    return { r: 232, g: 63, b: 119 };
-  } else if (H >= 30 && H < 40) {
-    return { r: 228, g: 57, b: 102 };
-  } else if (H >= 40 && H < 50) {
-    return { r: 218, g: 62, b: 103 };
-  } else if (H >= 50 && H < 60) {
-    return { r: 187, g: 89, b: 143 };
-  } else if (H >= 60 && H < 70) {
-    return { r: 163, g: 115, b: 181 };
-  } else if (H >= 70 && H < 80) {
-    return { r: 134, g: 141, b: 220 };
-  } else if (H >= 80 && H < 90) {
-    return { r: 123, g: 144, b: 225 };
-  } else if (H >= 90 && H < 100) {
-    return { r: 118, g: 133, b: 209 };
-  } else if (H >= 100 && H < 110) {
-    return { r: 115, g: 123, b: 195 };
-  } else if (H >= 110 && H < 120) {
-    return { r: 112, g: 113, b: 181 };
-  } else if (H >= 120 && H < 130) {
-    return { r: 108, g: 103, b: 166 };
-  } else if (H >= 130 && H < 135) {
-    return { r: 105, g: 95, b: 155 };
-  } else if (H >= 135 && H < 225) {
+  if (H >= 135 && H <= 225) {
     return { r: 255, g: 255, b: 255 };
-  } else if (H >= 225 && H < 230) {
-    return { r: 63, g: 233, b: 169 };
-  } else if (H >= 230 && H < 240) {
-    return { r: 96, g: 230, b: 148 };
-  } else if (H >= 240 && H < 250) {
-    return { r: 132, g: 227, b: 127 };
-  } else if (H >= 250 && H < 260) {
-    return { r: 168, g: 224, b: 105 };
-  } else if (H >= 260 && H < 270) {
-    return { r: 206, g: 221, b: 81 };
-  } else if (H >= 270 && H < 280) {
-    return { r: 243, g: 217, b: 57 };
-  } else if (H >= 280 && H < 290) {
-    return { r: 251, g: 186, b: 100 };
-  } else if (H >= 290 && H < 300) {
-    return { r: 252, g: 155, b: 146 };
-  } else if (H >= 300 && H < 310) {
-    return { r: 254, g: 121, b: 195 };
-  } else if (H >= 310 && H < 320) {
-    return { r: 254, g: 95, b: 230 };
-  } else if (H >= 320 && H < 330) {
-    return { r: 251, g: 90, b: 214 };
-  } else if (H >= 330 && H < 340) {
-    return { r: 248, g: 86, b: 197 };
-  } else if (H >= 340 && H < 350) {
-    return { r: 245, g: 82, b: 182 };
-  } else if (H >= 350 && H < 360) {
-    return { r: 241, g: 76, b: 166 };
-  } else {
-    return undefined;
   }
+  const color = [
+    { h: 5, r: 238, g: 72, b: 151 },
+    { h: 15, r: 234, g: 66, b: 133 },
+    { h: 25, r: 232, g: 63, b: 119 },
+    { h: 35, r: 228, g: 57, b: 102 },
+    { h: 45, r: 218, g: 62, b: 103 },
+    { h: 55, r: 187, g: 89, b: 143 },
+    { h: 65, r: 163, g: 115, b: 181 },
+    { h: 75, r: 134, g: 141, b: 220 },
+    { h: 85, r: 123, g: 144, b: 225 },
+    { h: 95, r: 118, g: 133, b: 209 },
+    { h: 105, r: 115, g: 123, b: 195 },
+    { h: 115, r: 112, g: 113, b: 181 },
+    { h: 125, r: 108, g: 103, b: 166 },
+    { h: 135, r: 105, g: 95, b: 155 },
+    { h: 225, r: 63, g: 233, b: 169 },
+    { h: 235, r: 96, g: 230, b: 148 },
+    { h: 245, r: 132, g: 227, b: 127 },
+    { h: 255, r: 168, g: 224, b: 105 },
+    { h: 265, r: 206, g: 221, b: 81 },
+    { h: 275, r: 243, g: 217, b: 57 },
+    { h: 285, r: 251, g: 186, b: 100 },
+    { h: 295, r: 252, g: 155, b: 146 },
+    { h: 305, r: 254, g: 121, b: 195 },
+    { h: 315, r: 254, g: 95, b: 230 },
+    { h: 325, r: 251, g: 90, b: 214 },
+    { h: 335, r: 248, g: 86, b: 197 },
+    { h: 345, r: 245, g: 82, b: 182 },
+    { h: 355, r: 241, g: 76, b: 166 }
+  ];
+  const index =
+    H < 5
+      ? color.length - 1
+      : color.findIndex(e => H - e.h >= 0 && H - e.h < 10);
+  if (index !== -1) {
+    const handleStartPoint = index === color.length - 1 && H < 5 ? 360 : 0;
+    const selected = color[index];
+    const next = color[index === color.length - 1 ? 0 : index + 1];
+    return {
+      r: Math.floor(
+        selected.r +
+          ((next.r - selected.r) * (H - selected.h + handleStartPoint)) / 10
+      ),
+      g: Math.floor(
+        selected.g +
+          ((next.g - selected.g) * (H - selected.h + handleStartPoint)) / 10
+      ),
+      b: Math.floor(
+        selected.b +
+          ((next.b - selected.b) * (H - selected.h + handleStartPoint)) / 10
+      )
+    };
+  }
+  return undefined;
 };
 const getGradDegree = (angle1, angle2) =>
   (Math.floor((angle1 + angle2) / 2) + 270) % 360;

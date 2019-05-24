@@ -40,9 +40,9 @@ export default class ColorSelector extends Component {
   }
   getRotation = (x, y) => {
     this.setState({ x, y });
-    return (
-      this.calculateDegrees(this.getRelativeCoordinates(x, y)).degrees + 180
-    );
+    const deg =
+      this.calculateDegrees(this.getRelativeCoordinates(x, y)).degrees + 180;
+    return deg >= 135 && deg < 180 ? 134 : deg >= 180 && deg < 210 ? 210 : deg;
   };
   emitChange() {
     if (this.props.onChange) {
